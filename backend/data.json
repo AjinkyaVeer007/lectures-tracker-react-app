@@ -1,22 +1,42 @@
 [
-    {
-    "email" : "ajinkya@gmail.com",
-    "password" : "123456"
-},
-    {
-    "email" : "rushi@gmail.com",
-    "password" : "1234567"
-},
-    {
-    "email" : "omkar@gmail.com",
-    "password" : "12345678"
-},
-    {
-    "email" : "akshay@gmail.com",
-    "password" : "123456789"
-},
-    {
-    "email" : "amol@gmail.com",
-    "password" : "1234567890"
-}
+  {
+    "username": "admin",
+    "email": "admin@gmail.com",
+    "password": "12345"
+  },
+  {
+    "username": "ajinkya",
+    "email": "ajinkya@gmail.com",
+    "password": "123456"
+  },
+  {
+    "username": "rushi",
+    "email": "rushi@gmail.com",
+    "password": "1234567"
+  },
+  {
+    "username": "omkar",
+    "email": "omkar@gmail.com",
+    "password": "12345678"
+  },
+  {
+    "username": "akshay",
+    "email": "akshay@gmail.com",
+    "password": "123456789"
+  },
+  {
+    "username": "amol",
+    "email": "amol@gmail.com",
+    "password": "1234567890"
+  },
+  {
+    "username": "shiva",
+    "email": "shiva@gmail.com",
+    "password": "12345678901"
+  },
+  {
+    "username": "ganesh",
+    "email": "ganesh@gmail.com",
+    "password": "abc123"
+  }
 ]

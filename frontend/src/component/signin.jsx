@@ -13,20 +13,20 @@ function SignInPage() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="mt-4 text-white text-3xl">
+    <div className="flex flex-col justify-center items-center bg-[#f9f9f9]">
+      <div className="mt-4 font-bold text-3xl">
         Welcome to Lectures Tracker App
       </div>
       {state === "register" ? <RegisterPage /> : <LoginPage />}
       <div className="flex justify-center items-center gap-4">
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 transform hover:scale-110"
+          className="bg-[#ff6392] text-white font-bold py-2 px-4 rounded transition duration-300 transform hover:scale-110"
           onClick={handleRegister}
         >
           Register
         </button>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 transform hover:scale-110"
+          className="bg-[#ff6392] text-white font-bold py-2 px-4 rounded transition duration-300 transform hover:scale-110"
           onClick={handlelogin}
         >
           Login

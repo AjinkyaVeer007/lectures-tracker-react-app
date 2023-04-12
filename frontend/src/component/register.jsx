@@ -1,22 +1,59 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("");
+  const [message, setMessage] = useState("");
 
-  const notify = () => toast("User Register Successfully!");
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
+    const data = {
+      username: username,
+      email: email,
+      password: password,
+    };
+
+    await axios
+      .post("http://localhost:4000/register", data)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("email", res.data.data);
+        localStorage.setItem("username", res.data.username);
+
+        if (res.data.data === "admin@gmail.com") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/instructor/dashboard");
+        }
+      })
+      .catch((err) => {
+        setMessage("Incorrect Credentials or Already registered");
+        console.log("fail to register");
+        console.log(err);
+      });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center my-12">
-      <form className="p-8 bg-white rounded shadow-md" onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center m-4 font-[Poppins]">
+      <form
+        className="p-8 bg-[#ffe45e] rounded shadow-md"
+        onSubmit={handleSubmit}
+      >
         <h1 className="mb-8 text-2xl font-bold">Register</h1>
+        <div className="mb-4">
+          <label className="block mb-2 font-bold text-gray-700">UserName</label>
+          <input
+            className="w-full px-3 py-2 border rounded"
+            type="text"
+            value={username}
+            onChange={(event) => setUserName(event.target.value)}
+            required
+          />
+        </div>
         <div className="mb-4">
           <label className="block mb-2 font-bold text-gray-700" htmlFor="email">
             Email
@@ -24,7 +61,6 @@ const RegisterPage = () => {
           <input
             className="w-full px-3 py-2 border rounded"
             type="email"
-            id="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
@@ -47,13 +83,12 @@ const RegisterPage = () => {
           />
         </div>
         <button
-          onClick={notify}
-          className="w-full px-3 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+          className="w-full px-3 py-2 text-white bg-[#ff6392] rounded"
           type="submit"
         >
           Register
         </button>
-        <ToastContainer />
+        <div className="text-red-500 text-[15px]">{message}</div>
       </form>
     </div>
   );
