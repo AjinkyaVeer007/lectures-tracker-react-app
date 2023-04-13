@@ -16,6 +16,8 @@ function Assign({ courses, instructor }) {
     assignTo: "",
   });
 
+  const [status, setStatus] = useState();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState((previousValue) => ({ ...previousValue, [name]: value }));
@@ -28,8 +30,6 @@ function Assign({ courses, instructor }) {
       assignTo: state.assignTo,
     };
 
-    console.log(data.date);
-
     await axios
       .post("http://localhost:4000/admin/schedulelecture", data, config)
       .then(
@@ -38,12 +38,13 @@ function Assign({ courses, instructor }) {
           date: "",
           assignTo: "",
         }),
-        console.log("Uploaded")
+        setStatus("Lecture Scheduled Successfully")
       )
       .catch((err) => {
-        console.log("Fail to schedule lecture");
-        console.log(err);
-        navigate("/");
+        setStatus(err.response.data.message);
+        if (err.response.data.message == "Invalid Token") {
+          navigate("/");
+        }
       });
   };
 
@@ -106,6 +107,7 @@ function Assign({ courses, instructor }) {
             Schedule Lecture
           </button>
         </div>
+        <div>{status}</div>
       </div>
     </div>
   );

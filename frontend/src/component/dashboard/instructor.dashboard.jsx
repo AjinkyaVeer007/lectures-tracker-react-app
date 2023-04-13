@@ -35,7 +35,7 @@ function InstructorDashboard() {
           {lectures &&
             lectures.map((item, index) => (
               <div key={index}>
-                <div className="bg-[#ffe45e] p-4 rounded flex justify-start items-start">
+                <div className="bg-[#ffe45e] p-4 rounded flex justify-start items-start border-l-8 border-[#ff6392]">
                   <div className="p-2">
                     <h1 className="mt-2">Name : {item.courseName}</h1>
                     <h1 className="mt-2">Lecture Date : {item.date}</h1>

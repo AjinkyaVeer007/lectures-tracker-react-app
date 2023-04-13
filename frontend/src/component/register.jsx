@@ -31,7 +31,7 @@ const RegisterPage = () => {
         }
       })
       .catch((err) => {
-        setMessage("Incorrect Credentials or Already registered");
+        setMessage(err.response.data.message);
         console.log("fail to register");
         console.log(err);
       });
@@ -51,7 +51,6 @@ const RegisterPage = () => {
             type="text"
             value={username}
             onChange={(event) => setUserName(event.target.value)}
-            required
           />
         </div>
         <div className="mb-4">
@@ -63,7 +62,6 @@ const RegisterPage = () => {
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            required
           />
         </div>
         <div className="mb-4">
@@ -79,7 +77,6 @@ const RegisterPage = () => {
             id="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            required
           />
         </div>
         <button

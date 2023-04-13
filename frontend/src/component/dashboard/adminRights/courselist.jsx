@@ -7,7 +7,7 @@ function CoursesList({ courses }) {
         {courses &&
           courses.map((item, index) => (
             <div key={index}>
-              <div className="bg-[#ffe45e] h-full w-[300px] rounded flex flex-col justify-start items-start">
+              <div className="bg-[#ffe45e] h-full w-[300px] rounded flex flex-col justify-start items-start border-b-8 border-[#ff6392]">
                 <div className="p-2 ">
                   <img src={item.img} />
                 </div>

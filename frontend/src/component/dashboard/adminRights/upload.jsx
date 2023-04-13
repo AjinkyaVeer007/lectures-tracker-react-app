@@ -22,7 +22,6 @@ function Upload() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState((previousValue) => ({ ...previousValue, [name]: value }));
-    console.log(state);
   };
 
   function convertToBase64(file) {
@@ -54,9 +53,8 @@ function Upload() {
           courseDescription: "",
           img: "",
         }),
-        console.log("Uploaded"),
 
-        setStatus("upload Succesfully"),
+        setStatus("Course Upload Succesfully"),
         setTimeout(() => {
           setStatus("");
         }, 3000)
@@ -64,9 +62,12 @@ function Upload() {
       let imgInputField = document.getElementById("courseimg");
       imgInputField.value = "";
     } catch (error) {
-      console.log("Fail to upload course");
       console.log(error);
-      navigate("/");
+      setStatus(error.response.data.message);
+
+      if (error.response.data.message == "Invalid Token") {
+        navigate("/");
+      }
     }
   };
 

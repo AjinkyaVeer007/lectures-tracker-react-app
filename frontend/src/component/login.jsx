@@ -10,7 +10,6 @@ const LoginPage = () => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (event) => {
-    console.log(message);
     setMessage("");
     event.preventDefault();
 
@@ -34,7 +33,7 @@ const LoginPage = () => {
         }
       })
       .catch((err) => {
-        setMessage("Incorrect Credentials or Need to Register first");
+        setMessage(err.response.data.message);
         console.log("fail to login");
         console.log(err);
       });
@@ -57,7 +56,6 @@ const LoginPage = () => {
             id="email"
             value={username}
             onChange={(event) => setUserName(event.target.value)}
-            required
           />
         </div>
         <div className="mb-4">
@@ -70,7 +68,6 @@ const LoginPage = () => {
             id="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            required
           />
         </div>
         <div className="mb-4">
@@ -86,7 +83,6 @@ const LoginPage = () => {
             id="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            required
           />
         </div>
         <button

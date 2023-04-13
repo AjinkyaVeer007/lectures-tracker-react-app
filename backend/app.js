@@ -23,14 +23,29 @@ app.post("/register", async (req, res) => {
 
     //validate the date
     if (!(username && email && password)) {
-      res.status(401).send("All field are mandatory");
+      return res.status(401).json({
+        success: false,
+        message: "All fields are mandatory",
+      });
     }
 
     //check user is existing or not
+    const existingUserName = await User.findOne({ username });
+
+    if (existingUserName) {
+      return res.status(401).json({
+        success: false,
+        message: "Username is already taken.",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      res.status(401).send("User is already register");
+      return res.status(401).json({
+        success: false,
+        message: "User is already registered.",
+      });
     }
 
     //encyrpt password
@@ -75,21 +90,39 @@ app.post("/login", async (req, res) => {
     const { username, email, password } = req.body;
 
     //check all fields are fill up or not
-    if (!(username, email, password)) {
-      res.status(401).json({
+    if (!username || !email || !password) {
+      return res.status(401).json({
         success: false,
         message: "All fields are mandatory",
       });
     }
 
+    // Check user is valid or not
+    const userName = await User.findOne({ username });
+
+    if (!userName) {
+      return res.status(401).json({
+        success: false,
+        message: "Kindly enter correct username or register first",
+      });
+    }
+
     // check user is valid or not
     const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Kindly enter correct email or register first",
+      });
+    }
+
     const userPassword = await bcrypt.compare(password, user.password);
 
-    if (!(user && userPassword)) {
-      res.status(401).json({
+    if (!userPassword) {
+      return res.status(401).json({
         success: false,
-        message: "Kindly enter correct credentials or register",
+        message: "Kindly enter correct password",
       });
     }
 
@@ -123,8 +156,8 @@ app.post("/uploadCourse", auth, async (req, res) => {
   try {
     const { courseName, courseType, courseDescription, img } = req.body;
     // check if all data uploaded
-    if (!(courseName, courseType, courseDescription, img)) {
-      res.status(401).json({
+    if (!(courseName && courseType && courseDescription && img)) {
+      return res.status(401).json({
         status: false,
         message: "All field are mandatory",
       });
@@ -141,6 +174,7 @@ app.post("/uploadCourse", auth, async (req, res) => {
 
     res.status(200).json({
       status: true,
+      message: "Course uploaded successfully",
       data: courseName,
     });
   } catch (error) {
@@ -182,8 +216,8 @@ app.post("/admin/schedulelecture", auth, async (req, res) => {
   try {
     const { courseName, date, assignTo } = req.body;
 
-    if (!(courseName, date, assignTo)) {
-      res.status(401).json({
+    if (!(courseName && date && assignTo)) {
+      return res.status(401).json({
         status: false,
         message: "All fields are mandatory",
       });
@@ -193,7 +227,10 @@ app.post("/admin/schedulelecture", auth, async (req, res) => {
     const scheduleCheck = await Lecture.findOne({ date, assignTo });
 
     if (scheduleCheck) {
-      return res.status(400).send("Instructure busy in another lecture");
+      return res.status(401).json({
+        status: false,
+        message: "Instructure is busy in another lecture",
+      });
     }
 
     const data = await Lecture.create({
